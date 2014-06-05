@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<p:messages id="msgs" />
+			<h:form id="form" prependId="false">
+				<p:panel id="panel" header="Novo Usuário">
+
+					<h:panelGrid columns="3">
+						<h:outputLabel for="nome" value="Nome: *" />
+						<p:inputText id="nome" value="#{usuarioBean.usuario.nome}"
+							required="true" label="Nome">
+							<p:ajax update="msgName" event="keyup" />
+						</p:inputText>
+						<p:message for="nome" id="msgName" display="icon" />
+
+						<h:outputLabel for="email" value="E-Mail: *" />
+						<p:inputText id="email" value="#{usuarioBean.usuario.email}"
+							required="true" label="Email">
+							<p:ajax update="msgEmail" event="keyup" />
+						</p:inputText>
+						<p:message for="email" id="msgEmail" display="icon" />
+
+						<h:outputLabel for="password" value="Password: *" />
+						<p:password id="password" value="#{usuarioBean.usuario.password}"
+							required="true" feedback="true" label="Password">
+							<p:ajax update="msgPassword" event="keyup" />
+						</p:password>
+						<p:message for="nome" id="msgPassword" display="icon" />
+
+						<h:outputLabel for="tipoUsuario" value="Tipo: *" />
+						<p:selectOneMenu id="tipoUsuario" required="true" requiredMessage="#{res['usuario.campo.tipo.required']}"
+							value="#{usuarioBean.usuario.tipo}">
+							<f:selectItem itemLabel="Selecione tipo"
+								itemValue="" />
+							<f:selectItems value="#{usuarioBean.tipos}" var="tipo"
+								itemValue="#{tipo}" itemLabel="#{tipo.descricao}" />
+							<p:ajax update="tipoUsuario" event="keyup" />
+						</p:selectOneMenu>
+						<p:message for="tipoUsuario" id="msgTipoUsuario" display="icon" />
+
+					</h:panelGrid>
+
+					<p:commandButton id="btnUsuario" value="Save" update="panel :msgs"
+						actionListener="#{usuarioBean.salvarUsuario}" />
+				</p:panel>
+
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

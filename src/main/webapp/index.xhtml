@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Login</title>
+		<h:outputStylesheet library="css" name="login.css"></h:outputStylesheet>
+	</h:head>
+	<h:body>	
+		<p:fieldset styleClass="login">
+			<p:layout>  
+			    <p:layoutUnit position="north" size="90">
+			    	<p:graphicImage library="images" name="logo-examsserver.png" />
+			    </p:layoutUnit>
+			    
+			    <p:layoutUnit position="west" size="275" >  
+					<div style="margin-top:30px" align="justify">
+						Bem Vindo. 
+						<br />
+						<br />
+					 	ExamProvas é o mais novo sistema da ExamsServer para o controle das provas técnicas executadas na empresa. A partir do sistema, usuários e corretores poderão consultar suas provas pendentes e finalizá-las conforme o processo. Aproveite!
+					</div>	 
+			    </p:layoutUnit>  
+			    <p:layoutUnit style="height:200px" position="center">  
+	               <ui:include src="login.xhtml" />
+			    </p:layoutUnit>  		
+			</p:layout>  	
+	 	</p:fieldset>  
+	</h:body>
+</html>

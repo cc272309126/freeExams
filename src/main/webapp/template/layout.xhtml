@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet name="css/default.css" />
+	<title>Provas</title>
+</h:head>
+<h:body>
+	<div style="margin: 0 auto; width: 1025px; max-height: 800px;">
+		<p:layout style="max-height: 800px">
+			<p:layoutUnit position="north">
+				<p:graphicImage  library="images" name="logo-examserver.png" style="float: left; height:100%"/>
+
+				<h:form>
+					<h:commandLink value="Sair" type="submit"
+						action="#{loginBean.logout}"
+						style="float: right; padding-right: 10px; padding-top: 50px;" />
+					<h:commandLink value="Trocar senha" url="#"
+						style="float: right; padding-right: 10px; padding-top: 50px" />
+				</h:form>
+				
+				<h:outputText
+					style="float: right; padding-top: 50px; padding-right: 30px"
+					value="Seja bem-vindo #{sessionBean.usuarioLogado.nome} (#{sessionBean.usuarioLogado.tipo})" />
+
+			</p:layoutUnit>
+
+
+			<p:layoutUnit position="west" size="200" header="Menu">
+				<h:form>
+					<p:menu style="width:182px">
+						<p:menuitem value="Inicio" url="/pages/main.xhtml"
+							icon="ui-icon-home" />
+						<p:submenu label="Testes">
+							<p:menuitem value="Abertas" rendered="#{sessionBean.usuario}"
+								url="/pages/protected/usuario/iniciar.xhtml?role=USUARIO"
+								icon="ui-icon-folder-open" />
+							<!-- <p:menuitem value="Concluídas" rendered="#{sessionBean.corretor}"
+								url="/pages/protected/usuario/iniciar.xhtml?role=CORRETOR"
+								icon="ui-icon-folder-collapsed" /> -->
+							<p:menuitem value="Consultar" rendered="#{sessionBean.admin}"
+								url="/pages/protected/admin/resultado.xhtml"
+								icon="ui-icon-locked" />
+						</p:submenu>
+						<p:submenu label="Categoria" rendered="#{sessionBean.admin}">
+							<p:menuitem value="Criar"
+								url="/pages/protected/admin/categoria.xhtml" icon="ui-icon-disk" />
+							<p:menuitem value="Update"
+								url="/pages/protected/admin/categoriaList.xhtml"
+								icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:submenu label="Questao" rendered="#{sessionBean.admin}">
+							<p:menuitem value="Criar"
+								url="/pages/protected/admin/questao.xhtml" icon="ui-icon-disk" />
+							<p:menuitem value="Update"
+								url="/pages/protected/admin/questaoList.xhtml"
+								icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:submenu label="Usuario" rendered="#{sessionBean.admin}">
+							<p:menuitem value="Criar"
+								url="/pages/protected/admin/usuario.xhtml" icon="ui-icon-disk" />
+							<p:menuitem value="Update"
+								url="/pages/protected/admin/usuarioList.xhtml"
+								icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:submenu label="Prova" rendered="#{sessionBean.admin}">
+							<p:menuitem value="Criar" icon="ui-icon-disk"
+								url="/pages/protected/admin/prova.xhtml" />
+							<p:menuitem value="Update"
+								url="/pages/protected/admin/provaList.xhtml"
+								icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+						<p:submenu label="Aplicações" rendered="#{sessionBean.admin}">
+							<p:menuitem value="Criar"
+								url="/pages/protected/admin/aplicacao.xhtml" icon="ui-icon-disk" />
+							<p:menuitem value="Update"
+								url="/pages/protected/admin/aplicacaoList.xhtml"
+								icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+					</p:menu>
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+				<ui:insert name="content">Put default content here, if any.</ui:insert>
+			</p:layoutUnit>
+		</p:layout>
+	</div>
+</h:body>
+</html>

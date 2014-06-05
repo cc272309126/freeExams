@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<p:messages id="msgs" />
+			<h:form id="form" prependId="false">
+				<p:panel id="panel" header="Nova Questao">
+					<h:panelGrid columns="3">
+						<h:outputLabel for="enunciado" value="Enunciado: *" />
+						<p:inputTextarea rows="10" cols="50" id="enunciado"
+							value="#{questaoBean.questao.enunciado}" required="true"
+							label="Enunciado">
+							<p:ajax update="msgEnunciado" event="keyup" />
+						</p:inputTextarea>
+						<p:message for="enunciado" id="msgEnunciado" display="icon" />
+
+						<h:outputLabel for="categoria" value="Categoria: *" />
+						<p:selectOneMenu id="categoria" required="true"
+							value="#{questaoBean.questao.categoria}"
+							converter="#{categoriaConverter}">
+							<f:selectItems value="#{questaoBean.categorias}" />
+							<p:ajax update="categoria" event="keyup" />
+						</p:selectOneMenu>
+						<p:message for="categoria" id="msgCategoria" display="icon" />
+
+						<h:outputLabel for="tipoQuestao" value="Tipo da Questão: *" />
+						<p:selectOneMenu id="tipoQuestao" required="true" requiredMessage="#{res['questao.campo.tipo.required']}"
+							value="#{questaoBean.questao.tipo}"> 
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{questaoBean.tipos}" var="tipo"
+								itemValue="#{tipo}" itemLabel="#{tipo.descricao}" />
+							<!-- 	<p:ajax update="respostas" listener="{questaoBean.updateRespostas}" />  -->
+							<p:ajax update="tipoQuestao" event="keyup" />
+						</p:selectOneMenu>
+						<p:message for="tipoQuestao" id="msgTipoQuestao" display="icon" />
+					</h:panelGrid>
+
+					<p:commandButton id="btnSalvarAlternativa"
+						update=":dialogForm:display" oncomplete="alternativaDialog.show()"
+						value="Adicionar Alternativa">
+
+					</p:commandButton>
+
+					<p:dataTable id="alternativas" var="alt" editable="true"
+						value="#{questaoBean.questao.alternativas}">
+
+						<p:commandButton id="btnAlternativa" value="Adicionar Alternativa"
+							update="alternativas" />
+
+						<p:column headerText="Conteudo">
+            #{alt.conteudo}
+        </p:column>
+
+						<p:column headerText="Correta" width="20">
+            #{alt.correta}
+        </p:column>
+        
+        <p:column headerText="" styleClass="deleteColumn">
+							<p:commandButton icon="ui-icon-close" title="Remover"
+								action="#{questaoBean.removerAlternativa}" update=":form">
+								<f:setPropertyActionListener
+									target="#{questaoBean.alternativaSelecionada}" value="#{alt}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+
+					<p:commandButton id="btnQuestao" value="Save"
+						update="panel :msgs"
+						actionListener="#{questaoBean.salvarQuestao}" />
+				</p:panel>
+			</h:form>
+
+			<h:form id="dialogForm">
+				<p:dialog header="Adicionar Alternativa"
+					widgetVar="alternativaDialog" id="alternativaDialog"
+					showEffect="fade">
+
+					<h:panelGrid id="display">
+						<h:outputLabel for="alternativa" value="Alternativa: *" />
+						<p:inputText id="alternativa"
+							value="#{questaoBean.alternativa.conteudo}" required="true"
+							label="Alternativa">
+							<p:ajax update="msgAlternativa" event="keyup" />
+						</p:inputText>
+						<p:message for="alternativa" id="msgAlternativa" display="icon" />
+
+						<h:outputText value="Correta: " />
+						<p:selectBooleanCheckbox
+							value="#{questaoBean.alternativa.correta}" />
+
+						<p:commandButton id="btnAlternativa"
+							actionListener="#{questaoBean.salvarAlternativa}"
+							oncomplete="alternativaDialog.hide()"
+							update=":form:alternativas :form:panel" value="Salvar" />
+
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

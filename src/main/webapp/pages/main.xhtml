@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/layout.xhtml">
+	<ui:define name="content">
+		<div style="margin: 50px;">
+
+			<div style="margin-botton: 50px;">
+				<b>Página Inicial do Sistema ExamsProvas</b>
+			</div>
+
+			<p:spacer height="50" />
+
+			<p:fieldset legend="Usuário">
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:graphicImage library="images" name="usuario.png" />
+					<h:outputText
+						value="            
+			            Seja bem-vindo ao sistema de provas da ExamsServer, o ExamsProvas. Como usuário, você poderá visualizar suas provas pendentes através do menu Testes -> Abertas e realizá-las através do botão Iniciar Prova. Bom proveito!
+			            " />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset legend="Corretor">
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:graphicImage library="images" name="corretor.png" />
+					<h:outputText
+						value="            
+	                    Seja bem-vindo ao sistema de provas da ExamsServer, o ExamsProvas. Como corretor, você podera visualizar suas provas pendentes através do menu Testes -> Concluídas e corrigí-las através do botão Corrigir Prova. Bom proveito!
+	                    " />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset legend="Administrador">
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:graphicImage library="images" name="admin.png" />
+					<h:outputText
+						value="            
+	                    Seja bem-vindo ao sistema de provas da ExamServer, o ExamProvas. Como administrador, você poderá gerenciar as provas do sistema bem como suas questões, categorias e aplicações. Além disso, você poderá gerenciar os usuários cadastrados no sistema bem como seu acesso. Comoa administrador, você poderá controlar os resultados das aplicações através do menu Testes -> Corrigidas. Bom proveito!
+	                    " />
+				</h:panelGrid>
+			</p:fieldset>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

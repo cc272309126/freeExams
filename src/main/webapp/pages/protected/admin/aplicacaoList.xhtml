@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<p:messages id="msgs" />
+			<h:form id="listForm">
+				<p:panel id="listPanel" header="Listar Aplicação de Provas">
+					<p:dataTable var="p" value="#{aplicacaoBean.aplicacoes}"
+						editable="true" editMode="cell" id="aplicacaoTable">
+						<p:ajax event="cellEdit" listener="#{aplicacaoBean.onCellEdit}"
+							update=":msgs" />
+						<p:column headerText="Id" styleClass="idColumn">
+							<h:outputText value="#{p.id}" />
+						</p:column>
+						<p:column headerText="Prova">
+							<h:outputText value="#{p.prova.nome}" />
+						</p:column>
+						<p:column headerText="Usuário">
+							<h:outputText value="#{p.usuario.nome}" />
+						</p:column>
+						<p:column styleClass="deleteColumn">
+							<p:commandButton icon="ui-icon-close" title="Remover Aplicação"
+								action="#{aplicacaoBean.removerAplicacao}"
+								update=":msgs :listForm">
+								<f:setPropertyActionListener
+									target="#{aplicacaoBean.aplicacaoSelecionada}" value="#{p}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<style type="text/css">
+table.test td {
+	border-style: none;
+	
+}
+
+table.test td tr td{
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 10px;
+}
+
+.calendarField {
+	width: 50px;
+}
+
+.selectField {
+	width: 50px;
+}
+</style>
+			<script>
+				function copyToClipboard(text) {
+					console.log("Entering copyToClipboard");
+					var url = generateUrl(text);
+					var output = window.prompt("Copiar link da prova:", url);
+					if (output != null) {
+						window.open(output);
+					}
+				}
+
+				function generateUrl(text) {
+					console.log("Entering generateUrl");
+					var origin = window.location.origin;
+					var base = origin + "/ExamProvas";
+					var url = base
+							+ "/pages/protected/usuario/iniciar.xhtml?data="
+							+ text;
+					return url;
+				}
+				
+				function openNewWindow(text) {
+					console.log("Entering openNewWindow");
+					var url = generateUrl(text);
+					window.open(url);
+				}
+				
+			</script>
+
+			<p:messages id="msgs" />
+
+			<h:form id="form">
+
+				<p:panel id="listPanel" header="Resultados">
+					<p:dataTable id="listTable" var="a" resizableColumns="true"
+						value="#{resultadoBean.aplicacoes}"
+						emptyMessage="Nenhum resultado encontrado.">
+
+						<p:column headerText="Id" sortBy="#{a.id}" filterBy="#{a.id}"
+							filterMatchMode="contains" width="30" filterStyle="width: 15px">
+							<h:outputText value="#{a.id}" />
+						</p:column>
+
+						<p:column headerText="Usuario" sortBy="#{a.usuario.nome}"
+							filterStyle="width: 35px" filterBy="#{a.usuario.nome}"
+							filterMatchMode="contains" width="50">
+							<h:outputText value="#{a.usuario}" />
+						</p:column>
+
+						<p:column headerText="Prova" sortBy="#{a.prova.nome}" width="40"
+							filterStyle="width: 35px" filterBy="#{a.prova.nome}"
+							filterMatchMode="contains">
+							<h:outputText value="#{a.prova.nome}" />
+						</p:column>
+
+						<p:column sortBy="#{a.data}" width="100">
+							<f:facet name="header">
+								<h:panelGrid columns="1" styleClass="test">
+									<h:outputText value="Data" />
+									<h:panelGrid columns="2" style="padding: 0px">
+										<h:outputLabel value="De: " />
+										<p:calendar id="firstDate" styleClass="calendarField"
+											value="#{resultadoBean.minDate}">
+											<p:ajax event="dateSelect"
+												listener="#{resultadoBean.filtrarPorData}"
+												update="listTable" />
+										</p:calendar>
+
+										<h:outputLabel value="Até: " />
+										<p:calendar id="lastDate" styleClass="calendarField"
+											value="#{resultadoBean.maxDate}">
+											<p:ajax event="dateSelect"
+												listener="#{resultadoBean.filtrarPorData}"
+												update="listTable" />
+										</p:calendar>
+									</h:panelGrid>
+								</h:panelGrid>
+							</f:facet>
+							<h:outputText value="#{a.data}" />
+						</p:column>
+
+						<p:column headerText="Status" filterBy="#{a.status}" width="50"
+							filterStyle="selectField" filterOptions="#{resultadoBean.status}"
+							filterMatchMode="exact">
+							<h:outputText value="#{a.status}" />
+						</p:column>
+
+						<p:column headerText="Iniciar" width="25">
+							<p:commandButton icon="ui-icon-document"
+								onclick="copyToClipboard('#{a.url}');"
+								disabled="#{a.status != 'ABERTA'}" />
+						</p:column>
+
+						<p:column headerText="Corrigir" width="25">
+							<p:commandButton icon="ui-icon-document"
+								onclick="copyToClipboard('#{a.url}');"
+								disabled="#{a.status != 'CONCLUIDA'}" />
+						</p:column>
+
+						<p:column headerText="Visualizar" width="25">
+							<p:commandButton icon="ui-icon-mail-open"
+								onclick="openNewWindow('#{a.url}');"
+								disabled="#{a.status != 'CORRIGIDA'}" />
+						</p:column>
+
+						<p:column headerText="Nota" width="25"
+							sortBy="#{a.resultado}">
+							<h:outputText value="#{a.resultado}" />
+						</p:column>
+
+						<p:column headerText="Corretor" sortBy="#{a.corretor.nome}"
+							width="50" filterStyle="width: 35px"
+							filterBy="#{a.corretor.nome}" filterMatchMode="contains">
+							<h:outputText value="#{a.corretor}" />
+						</p:column>
+
+						<p:column headerText="" width="20">
+							<p:commandButton icon="ui-icon-close" title="Remover"
+								action="#{resultadoBean.removerResultado}" update=":msgs :form">
+								<f:setPropertyActionListener
+									target="#{resultadoBean.aplicacaoSelecionada}" value="#{a}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

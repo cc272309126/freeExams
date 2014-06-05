@@ -1,0 +1,31 @@
+@CHARSET "ISO-8859-1";
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 95% !important;
+    font-family:calibri;
+}
+
+.ui-panel{
+    font-size: 95% !important;
+    font-family: calibri;
+}
+
+.ui-layout-unit-content {
+	padding: 0em 0em !important;
+}
+
+.deleteColumn {
+	width: 20px
+}
+
+.idColumn {
+	width: 40px
+}
+
+.linkColumn {
+	width: 100px
+}
+
+.resultImage {
+	width: 15px;
+	height: 15px;
+}

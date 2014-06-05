@@ -1,0 +1,31 @@
+buildscript {
+    repositories {
+        maven {
+            url 'http://192.168.10.181:8080/artifactory/plugins-release'
+        }
+    }
+    dependencies {
+        classpath 'br.com.examsserver:gradleplugins:0.1.+'
+    }
+}
+
+apply plugin : 'examswar'
+
+// --- project specific ---
+artifactory {
+    contextUrl = "http://192.168.10.181:8080/artifactory"
+}
+
+version = '1.0'
+
+dependencies {	
+	compile group: 'br.com.examsserver', name: 'examsfwkpersistence', version: '1.0-SNAPSHOT'
+	compile group: 'br.com.examsserver', name: 'examsfwkservice', version: '1.0-SNAPSHOT'
+	compile group: 'br.com.examsserver', name: 'examsfwkweb', version: '1.0-SNAPSHOT'
+	
+	compile group: 'commons-codec', name: 'commons-codec', version: '1.4'
+	compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.0.Final'
+	compile group: 'org.primefaces', name: 'primefaces', version: '3.5'
+	compile group: 'org.primefaces.themes', name: 'all-themes', version: '1.0.9'
+	compile group: 'javax', name: 'javaee-api', version: '6.0'
+}

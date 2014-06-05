@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<p:messages id="msgs" />
+			<h:form id="form" prependId="false">
+				<p:panel id="panel" header="Nova Aplicação">
+					<h:panelGrid columns="3">
+						<h:outputLabel for="prova" value="Prova: *" />
+						<p:selectOneMenu id="prova" requiredMessage="#{res['aplicacao.campo.prova.required']}"
+							value="#{aplicacaoBean.aplicacao.prova}" required="true"
+							converter="#{provaConverter}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{aplicacaoBean.provas}" />
+							<p:ajax update="prova" event="keyup" />
+						</p:selectOneMenu>
+						<p:message for="prova" id="msgProva" display="icon" />
+
+						<h:outputLabel for="usuario" value="Usuario: *" />
+						<p:selectOneMenu id="usuario" requiredMessage="#{res['aplicacao.campo.usuario.required']}"
+							value="#{aplicacaoBean.aplicacao.usuario}" required="true"
+							converter="#{usuarioConverter}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{aplicacaoBean.usuarios}" />
+							<p:ajax update="usuario" event="keyup" />
+						</p:selectOneMenu>
+						<p:message for="usuario" id="msgUsuario" display="icon" />
+					</h:panelGrid>
+					<p:commandButton id="btnAplicacao" value="Save" update="panel :msgs"
+						actionListener="#{aplicacaoBean.salvarAplicacao}" />
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

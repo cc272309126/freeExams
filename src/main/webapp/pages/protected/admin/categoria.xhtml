@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<p:messages id="msgs" />
+
+			<h:form id="addForm">
+				<p:panel id="addPanel" header="Nova Categoria">
+					<h:panelGrid columns="3">
+						<h:outputLabel for="nome" value="Nome: *" />
+						<p:inputText id="nome" value="#{categoriaBean.entity.nome}"
+							required="true" label="Nome">
+							<p:ajax update="msgName" event="keyup" />
+						</p:inputText>
+						<p:message for="nome" id="msgName" display="icon" />
+					</h:panelGrid>
+
+					<p:commandButton id="btn" value="Save" update="addPanel :msgs"
+						actionListener="#{categoriaBean.salvarCategoria}" />
+
+				</p:panel>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

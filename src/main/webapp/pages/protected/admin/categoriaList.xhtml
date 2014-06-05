@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<p:messages id="msgs" />
+
+			<h:form id="listForm">
+				<p:panel id="listPanel" header="Listar Categorias">
+					<p:dataTable var="c" value="#{categoriaBean.categorias}"
+						editable="true" editMode="cell" id="categoriaTable">
+						<p:ajax event="cellEdit" listener="#{categoriaBean.onCellEdit}"
+							update=":msgs" />
+						<p:column headerText="Id" styleClass="idColumn">
+							<h:outputText value="#{c.id}" />
+						</p:column>
+						<p:column headerText="Nome">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{c.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="nomeInput" value="#{c.nome}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column styleClass="deleteColumn">
+							<p:commandButton icon="ui-icon-close" title="Remover categoria"
+								action="#{categoriaBean.removerCategoria}"
+								update=":msgs :listForm">
+								<f:setPropertyActionListener
+									target="#{categoriaBean.categoriaSelecionada}" value="#{c}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

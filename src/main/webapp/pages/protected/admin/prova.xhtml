@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<style type="text/css">
+table.test td {
+	float: left;
+	border-style: none;
+}
+</style>
+			<p:messages id="msgs" />
+			<h:form id="form" prependId="false">
+				<p:panel id="panel" header="Nova Prova">
+
+					<h:panelGrid columns="3">
+						<h:outputLabel for="nome" value="Nome: *" />
+						<p:inputText id="nome" value="#{provaBean.prova.nome}"
+							required="true" label="Nome">
+							<p:ajax update="msgName" event="keyup" />
+						</p:inputText>
+						<p:message for="nome" id="msgName" display="icon" />
+
+						<h:outputLabel for="Categoria" value="Categoria: " />
+						<p:selectOneMenu id="categoria" value="#{provaBean.categoria}"
+							converter="#{categoriaConverter}">
+							<f:selectItem itemValue="" itemLabel="Todas" />
+							<f:selectItems value="#{provaBean.categorias}" />
+							<p:ajax update="questoesPickList" event="change"
+								listener="#{provaBean.changeCategoria}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<h:outputLabel for="questoesPickList" value="Questoes: *" />
+					<p:pickList id="questoesPickList" requiredMessage="#{res['prova.campo.questoes.required']}"
+						value="#{provaBean.questoesModel}" required="true"
+						converter="#{questaoConverter}" var="questao"
+						itemLabel="#{questao.enunciado}" itemValue="#{questao}">
+						<p:ajax update=":previewForm" event="transfer"
+							listener="#{provaBean.transfer}" />
+					</p:pickList>
+
+					<p:commandButton id="btnProva" value="Save"
+						update="panel :msgs :previewForm"
+						actionListener="#{provaBean.salvarProva}" />
+				</p:panel>
+			</h:form>
+
+			<h:form id="previewForm">
+				<p:panel id="previewPanel" header="Preview">
+					<p:dataTable var="q" id="previewTable"
+						value="#{provaBean.questoesModel.target}">
+
+						<p:column headerText="Questões">
+							<!-- <h:outputText value="#{q.numeroDaQuestao}) " />  -->
+							<h:outputText value="#{q.enunciado}" />
+
+							
+							<p:inputText id="peso" value="#{q.peso}" required="true" style="float: right; width: 20px">
+								<p:ajax update="msgPeso" event="keyup" />
+							</p:inputText>
+							<h:outputLabel for="Peso" value="Peso: *" style="float: right"/>
+							<p:message for="peso" id="msgPeso" display="icon" style="float: right"/>
+							
+
+							<!-- Questão Alternativa -->
+							<p:selectOneRadio id="alternativa"
+								styleClass="test" converter="#{alternativaConverter}"
+								value="#{q.alternativaEscolhida}"
+								rendered="#{q.tipo == 'ALTERNATIVA'}" layout="pageDirection">
+								<f:selectItems value="#{q.alternativas}" />
+							</p:selectOneRadio>
+
+							<!-- Questão Múltipla Escolha -->
+							<p:selectManyCheckbox id="multiplaEscolha"
+								styleClass="test" converter="#{alternativaConverter}"
+								value="#{q.alternativasEscolhidas}"
+								rendered="#{q.tipo == 'MULTIPLA_ESCOLHA'}"
+								layout="pageDirection">
+								<f:selectItems value="#{q.alternativas}" />
+							</p:selectManyCheckbox>
+
+							<!-- Questão Texto -->
+							<p:inputTextarea rows="5" cols="50" id="texto" value="#{q.alternativaTexto}"
+								rendered="#{q.tipo == 'TEXTO'}" />
+
+						</p:column>
+
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

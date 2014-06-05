@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<p:messages id="msgs" />
+
+			<h:form id="listForm">
+				<p:panel id="listPanel" header="Listar Questoes">
+					<p:dataTable var="q" value="#{questaoBean.questoes}"
+						editable="true" editMode="cell" id="questaoTable">
+						<p:ajax event="cellEdit" listener="#{questaoBean.onCellEdit}" />
+						<p:column headerText="Id" styleClass="idColumn">
+							<h:outputText value="#{q.id}" />
+						</p:column>
+						<p:column headerText="Enunciado">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{q.enunciado}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="enunciadoInput" value="#{q.enunciado}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column styleClass="deleteColumn">
+							<p:commandButton icon="ui-icon-close" title="Remover Questao"
+								action="#{questaoBean.removerQuestao}" update=":msgs :listForm">
+								<f:setPropertyActionListener
+									target="#{questaoBean.questaoSelecionada}" value="#{q}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

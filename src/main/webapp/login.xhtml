@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel style="width:275px; float:right; margin-top: 65px;">
+		<h:form prependId="false">
+			<h:panelGrid columns="1">
+				<h:outputLabel value="Usuário" />
+				<p:inputText style="width:235px;" id="username"
+					value="#{loginBean.username}" />
+
+				<h:outputLabel value="Senha" />
+				<p:password style="width:235px;" id="password"
+					value="#{loginBean.password}" />
+			</h:panelGrid>
+			<p:separator />
+			<p:commandButton value="Entrar" action="#{loginBean.login}"
+				type="submit">
+				<f:param name="from" value="#{request.requestURL}" />
+				 </p:commandButton>
+			<p:commandLink actionListener="#{loginBean.lostPassword}"
+				style="float:right; margin-top:5px;">Esqueceu sua senha?</p:commandLink>
+		</h:form>
+		<p:messages autoUpdate="true" closable="true" />
+	</p:panel>
+</ui:composition>

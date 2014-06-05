@@ -1,0 +1,218 @@
+/**
+ *	Project:
+ *	- Title: Portal ABVCAP
+ *	Developers:
+ *	- Name: Mário Valmir
+ *
+ *	Content:
+ *
+ *	- Section: dashboard
+ *	- Comment: special style to dashboard UI.
+ */
+ 
+ 
+ .ui-widget, .ui-widget .ui-widget {
+	font-size: 50% !important;
+	font-family:calibri;
+}
+
+.ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd {
+	border: none;
+}
+
+.ui-panel{
+	font-size: 50% !important;
+	font-family: calibri;
+}
+ 
+#ui-master
+{
+	float: left;
+	margin: 0px auto;
+	min-height: 100%;
+	min-width: 960px;
+	outline: solid thin black;
+	position: relative;
+	width: 100%;
+}
+
+#ui-header
+{
+	background: #F8F8F8 scroll repeat-x left top;
+	color: inherit;
+	margin: 0px auto;
+	position: relative;
+	height: 150px;
+}
+
+#portal
+{
+	background: transparent url("#{resource['img:portal-small.png']}") scroll no-repeat 0px 0px;
+	color: inherit;
+	height: 30px;
+	left: 40px;
+	position: absolute;
+	text-indent: -100000px;
+	top: 25px;
+	width: 90px;
+}
+
+#ui-authuser
+{
+	background-color: #FFF;
+	border: solid 1px #877C3D;
+	border-radius: 12px;
+	box-shadow: 4px 4px 4px #003C2F;
+	color: inherit;
+	height: 50px;
+	position: absolute;
+	right: 60px;
+	top: 12px;
+	width: 260px;
+}
+
+#co-op, #username
+{
+	float: left;
+}
+
+#logout
+{
+	float: right;
+	margin: 0px 8px auto auto;
+	text-transform: uppercase;
+}
+
+#logout a:link
+{
+	background-color: transparent;
+	color: inherit;
+}
+
+#username
+{
+	clear: left;
+}
+
+#co-op-icon, #username-icon, #logout-icon
+{
+	float: left;
+	margin: 4px 4px auto auto;
+}
+
+#ui-dashboard
+{
+	float: left;
+	margin-top: 5px;
+	padding-bottom: 100px;
+	position: relative;
+	width: 100%;
+}
+
+#ui-dashcontent
+{
+	background: #C0C0C0;
+	color: inherit;
+	border-bottom: solid 2px #003C2F;
+	float: left;
+	margin: 0px auto;
+	min-height: 312px;
+	padding-bottom: 24px;
+	position: relative;
+	width: 100%;
+}
+
+#ui-dashcontent a:link
+{
+	background-color: #C0C0C0;
+	box-shadow: 4px 4px 4px #003C2F;
+	color: inherit;
+	display: block;
+	float: left;
+	height: 72px;
+	margin: 60px;
+	position: relative;
+	text-align: center;
+	width: 72px;
+}
+
+#ui-dashboard a img
+{
+	display: block;
+	margin: 12px auto;
+}
+
+#ui-dashcontent a .ui-system-name
+{
+	left: -60px;
+	overflow: hidden;
+	max-height: 72px;
+	position: absolute;
+	top: 76px;
+	width: 190px;
+}
+
+#ui-dashcontent a:hover
+{
+	background-color: #003C2F;
+	color: inherit;
+	-ms-transform: scale(1.1, 1.1);
+	-webkit-transform: scale(1.1, 1.1);
+	transform: scale(1.1, 1.1);
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	text-decoration: none;
+}
+
+#ui-dashcontent a:active
+{
+	-ms-transform: scale(0.9, 0.9);
+	-webkit-transform: scale(0.9, 0.9);
+	transform: scale(0.9, 0.9);
+}
+
+#selection
+{
+	background: transparent url("#{resource['img:selection.png']}") scroll no-repeat 0px 0px;
+	color: inherit;
+	float: right;
+	height: 30px;
+	margin: 0px 48px auto auto;
+	text-indent: -1000000px;
+	width: 155px;
+}
+
+#ui-footer
+{
+	background-color: #003C2F;
+	border-top: solid 2px #877C3D;
+	bottom: 0px;
+	color: inherit;
+	height: 60px;
+	left: 0px;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+}
+
+#ui-footer-overlay
+{
+	background: #C0C0C0;
+	color: inherit;
+	left: 0px;
+	height: 100px;
+	position: absolute;
+	top: -40px;
+	width: 100%;
+	z-index: 2;
+}
+
+#version
+{
+	background-color: transparent;
+	color: #FFF;
+	position: absolute;
+	right: 48px;
+	top: 2px;
+	z-index: 3;
+}

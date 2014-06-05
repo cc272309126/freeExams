@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<style type="text/css">
+table.test td {
+	float: left;
+	border-style: none;
+}
+</style>
+			<p:messages id="msgs" />
+
+			<h:form id="listForm">
+				<p:panel id="listPanel" header="Listar Provas">
+					<p:dataTable var="p" value="#{provaBean.provas}" editable="true"
+						editMode="cell" id="provaTable">
+						<p:ajax event="cellEdit" listener="#{provaBean.onCellEdit}"
+							update=":listForm :msgs" />
+						<p:column headerText="Id" styleClass="idColumn">
+							<h:outputText value="#{p.id}" />
+						</p:column>
+						<p:column headerText="Prova">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{p.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="nomeInput" value="#{p.nome}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column styleClass="deleteColumn">
+							<p:commandButton icon="ui-icon-close" title="Remover Prova"
+								action="#{provaBean.removerProva}" update=":listForm :msgs">
+								<f:setPropertyActionListener
+									target="#{provaBean.provaSelecionada}" value="#{p}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

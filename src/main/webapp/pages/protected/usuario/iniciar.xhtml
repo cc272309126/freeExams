@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<style type="text/css">
+table.test td {
+	float: left;
+	border-style: none;
+	border-width: 0px;
+}
+
+table.test tr {
+	border-width: 0px;
+}
+
+.green {
+	background-color: lightgreen;
+}
+</style>
+
+			<p:messages id="msgs" />
+
+			<h:form id="listForm">
+				<p:panel id="listPanel"
+					header="Aplicacoes para o #{iniciarProvaBean.usuario.descricao}"
+					rendered="#{iniciarProvaBean.status == NULL}">
+					<p:dataTable var="a" value="#{iniciarProvaBean.aplicacoes}">
+						<p:column headerText="Id" styleClass="idColumn">
+							<h:outputText value="#{a.id}" />
+						</p:column>
+
+						<p:column headerText="Nome">
+							<h:outputText value="#{a.prova.nome}" />
+						</p:column>
+
+						<p:column headerText="Link" styleClass="linkColumn"
+							rendered="#{iniciarProvaBean.usuario == 'USUARIO'}">
+							<h:commandLink value="Iniciar Prova" action="iniciar.xhtml">
+								<f:param name="data" value="#{a.url}" />
+							</h:commandLink>
+						</p:column>
+
+						<p:column headerText="Link" styleClass="linkColumn"
+							rendered="#{iniciarProvaBean.usuario == 'CORRETOR'}">
+							<h:commandLink value="Corrigir Prova" action="iniciar.xhtml">
+								<f:param name="data" value="#{a.url}" />
+							</h:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+
+			<h:form id="addForm" prependId="false">
+				<p:panel id="iniciarPanel" header="Iniciar Prova"
+					rendered="#{iniciarProvaBean.usuario == 'USUARIO' and iniciarProvaBean.status == 'ABERTA'}">
+
+					<h:outputText value="#{iniciarProvaBean.aplicacao.prova.nome}" />
+					<p:dataTable var="q" id="addQuestoes"
+						value="#{iniciarProvaBean.aplicacao.prova.questoes}">
+
+						<p:column headerText="Questões">
+							<h:outputText value="#{q.questao.numeroDaQuestao}) " />
+							<h:outputText value="#{q.questao.enunciado}" />
+
+							<!-- Questão Alternativa -->
+							<p:selectOneRadio id="alternativa" required="true" requiredMessage="#{res['iniciar.campo.questao.required']} #{q.questao.numeroDaQuestao}"
+								styleClass="test" converter="#{alternativaConverter}"
+								value="#{q.questao.alternativaEscolhida}"
+								rendered="#{q.questao.tipo == 'ALTERNATIVA'}"
+								layout="pageDirection">
+								<f:selectItems value="#{q.questao.alternativas}" />
+							</p:selectOneRadio>
+
+							<!-- Questão Múltipla Escolha -->
+							<p:selectManyCheckbox id="multiplaEscolha" required="true"
+								styleClass="test" converter="#{alternativaConverter}"
+								value="#{q.questao.alternativasEscolhidas}"
+								requiredMessage="#{res['iniciar.campo.questao.required']} #{q.questao.numeroDaQuestao}"
+								rendered="#{q.questao.tipo == 'MULTIPLA_ESCOLHA'}"
+								layout="pageDirection">
+								<f:selectItems value="#{q.questao.alternativas}" />
+							</p:selectManyCheckbox>
+
+							<!-- Questão Texto -->
+							<p:panelGrid columns="1" styleClass="test">
+							<p:inputTextarea styleClass="test" id="texto" rows="5" cols="50" value="#{q.questao.alternativaTexto}" requiredMessage="#{res['iniciar.campo.questao.required']} #{q.questao.numeroDaQuestao}"
+								required="true" rendered="#{q.questao.tipo == 'TEXTO'}" />
+								</p:panelGrid>
+						</p:column>
+
+					</p:dataTable>
+
+					<p:commandButton id="btnSalvar" value="Save"
+						update=":msgs :addForm"
+						rendered="#{iniciarProvaBean.status == 'ABERTA'}"
+						action="#{iniciarProvaBean.salvarProva}" />
+
+				</p:panel>
+
+				<p:panel id="corrigirPanel" header="Corrigir Prova"
+					rendered="#{iniciarProvaBean.usuario == 'CORRETOR' and iniciarProvaBean.status == 'CONCLUIDA'}">
+
+					<h:outputText value="#{iniciarProvaBean.aplicacao.prova.nome}" />
+					<p:dataTable var="q" value="#{iniciarProvaBean.questoesTexto}" id="checkQuestoes">
+						<p:column headerText="Questões">
+
+							<p:panelGrid columns="2" styleClass="test">
+								<h:outputText value="#{q.numeroDaQuestao}) " />
+								<h:outputText value="#{q.enunciado}" />
+
+								<!-- Questão Texto (CORREÇÃO) -->
+								Resposta do usuário:
+								<h:outputText id="textoOutput"
+									value="#{q.respostaTexto.conteudo}" />
+								Texto correto: 
+								<h:outputText id="textoOutputCorreta"
+									value="#{q.alternativaTextoCorreta.conteudo}" />
+								<h:outputLabel for="correta" value="Correta: " />
+								<p:selectOneRadio id="correta" required="true" requiredMessage="#{res['corrigir.campo.questao.required']} #{q.numeroDaQuestao}"
+									value="#{q.respostaTexto.correta}">
+									<f:selectItem itemLabel="Certo" itemValue="true" />
+									<f:selectItem itemLabel="Errado" itemValue="false" />
+								</p:selectOneRadio>
+							</p:panelGrid>
+						</p:column>
+
+					</p:dataTable>
+
+					<p:commandButton id="btnCorrigir" value="Corrigir"
+						update=":msgs :addForm"
+						rendered="#{iniciarProvaBean.status == 'CONCLUIDA'}"
+						action="#{iniciarProvaBean.corrigirProva}" />
+
+				</p:panel>
+			</h:form>
+
+			<h:form id="viewForm">
+				<p:panel id="visualizarPanel" header="Visualizar Prova"
+					rendered="#{iniciarProvaBean.usuario == 'ADMIN' and iniciarProvaBean.status == 'CORRIGIDA'}">
+
+					Usuário:
+					<h:outputText value="#{iniciarProvaBean.aplicacao.usuario.nome}" />
+					<br/>
+					Prova: 
+					<h:outputText value="#{iniciarProvaBean.aplicacao.prova.nome}" />
+					<br/>
+					Nota: 
+					<h:outputText
+						value="#{iniciarProvaBean.aplicacao.resultado}" />				
+
+					<p:dataTable var="q"
+						value="#{iniciarProvaBean.aplicacao.prova.questoes}">
+
+						<p:column>
+							<h:graphicImage library="images" styleClass="resultImage" name="true.png" rendered="#{q.questao.correta}" />
+							<h:graphicImage library="images" styleClass="resultImage" name="false.png" rendered="#{!q.questao.correta}" />
+						</p:column>
+
+						<p:column headerText="Questões">
+							<h:outputText value="#{q.questao.numeroDaQuestao}) " />
+							<h:outputText value="#{q.questao.enunciado}" />
+
+							<!-- Questão Alternativa -->
+							<p:selectOneRadio id="alternativa" styleClass="test"
+								converter="#{alternativaConverter}" var="a"
+								value="#{q.questao.alternativaEscolhida}"
+								rendered="#{q.questao.tipo == 'ALTERNATIVA'}" disabled="true"
+								layout="pageDirection">
+								<f:selectItems value="#{q.questao.alternativas}">
+								</f:selectItems>
+							</p:selectOneRadio>
+
+							<!-- Questão Múltipla Escolha -->
+							<p:selectManyCheckbox id="multiplaEscolha" disabled="true"
+								styleClass="test" converter="#{alternativaConverter}"
+								value="#{q.questao.alternativasEscolhidas}"
+								rendered="#{q.questao.tipo == 'MULTIPLA_ESCOLHA'}"
+								layout="pageDirection">
+								<f:selectItems value="#{q.questao.alternativas}" />
+							</p:selectManyCheckbox>
+							<p:dataList value="#{q.questao.alternativas}" var="a"
+								type="ordered" styleClass="test"
+								rendered="#{q.questao.tipo == 'MULTIPLA_ESCOLHA' or q.questao.tipo == 'ALTERNATIVA'}">
+								<h:outputText
+									value="#{a.correta == true ? 'Correta' : 'Incorreta'}" />
+							</p:dataList>
+
+							<p:panelGrid columns="2" styleClass="test"
+								rendered="#{q.questao.tipo == 'TEXTO'}">
+								<!-- Questão Texto -->
+								<h:outputText id="textoOutput"
+									value="#{q.questao.respostaTexto.conteudo}" />
+								<h:outputText id="textoOutputCorreta"
+									value="#{q.questao.alternativaTextoCorreta.conteudo}"
+									style="background-color: lightgreen" />
+							</p:panelGrid>
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
